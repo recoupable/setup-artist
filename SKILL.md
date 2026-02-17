@@ -10,7 +10,7 @@ Scaffold a complete artist workspace so agents can start working immediately.
 ## Prerequisites
 
 - The sandbox has already been set up (see `setup-sandbox` skill)
-- An artist folder exists at `orgs/{org-name}/artists/{artist-slug}/` with a `RECOUP.md` marker file
+- An artist folder exists at `orgs/{org}/artists/{artist-slug}/` with a `RECOUP.md` marker file
 - The `RECOUP.md` file contains the artist's name, slug, and Recoup ID (created by `setup-sandbox`)
 
 ## Folder Structure
@@ -53,7 +53,7 @@ Scaffold a complete artist workspace so agents can start working immediately.
 1. Navigate to the artist folder and read `RECOUP.md` to get the artist's name, slug, and ID:
 
 ```bash
-cd orgs/{org-name}/artists/{artist-slug}
+cd orgs/{org}/artists/{artist-slug}
 cat RECOUP.md
 ```
 
