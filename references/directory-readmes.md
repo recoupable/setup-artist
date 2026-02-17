@@ -96,14 +96,20 @@ Subdirectories are created automatically by the pipeline as content is produced.
 ```markdown
 ---
 name: Config
-description: Per-artist configuration for shared tools and apps. Each shared app that operates on this artist stores its settings here under config/{app-name}/. This is NOT for artist identity (that's context/) or artist-owned apps (that's apps/).
+description: Per-artist configuration, services, and shared tool settings. Services are tracked here (not in context/). Each shared app stores its config under config/{app-name}/.
 ---
 
 # Config
 
-Per-artist configuration and state for **shared tools** that operate on this artist.
+Per-artist configuration, services, and state for **shared tools** that operate on this artist.
 
-## Convention
+## Services
+
+See `SERVICES.md` for how to connect and track services. Individual service entries live in `config/services/` as JSON files — created when a service is actually connected (not before).
+
+Credentials go in `.env` at the artist root — never in config files.
+
+## Shared App Convention
 
 Each shared app gets its own subdirectory named after the app:
 

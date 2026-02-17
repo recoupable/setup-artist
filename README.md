@@ -5,8 +5,9 @@ An LLM skill for scaffolding a complete artist workspace inside a sandbox enviro
 ## What It Does
 
 - Creates the full directory structure for an artist workspace
-- Populates context files (identity, audience, era, services)
-- Sets up the memory system (MEMORY.md + instructions)
+- Populates context files (identity, audience, era)
+- Sets up the memory system with scope-aware instructions (MEMORY.md + README)
+- Creates a lean services guide (no pre-filled JSON) and environment files
 - Creates README files for every directory so agents know what goes where
 - Fills in artist data when available, uses placeholders when not
 
@@ -27,7 +28,9 @@ Run the `setup-sandbox` skill first to create the org/artist folder structure.
 | File | Purpose |
 |------|---------|
 | `SKILL.md` | Core skill instructions |
-| `references/context-files.md` | Templates for all `context/` files |
-| `references/memory-system.md` | Templates for the `memory/` directory |
+| `references/context-files.md` | Templates for `context/` files (artist, audience, era, tasks, images) |
+| `references/memory-system.md` | Templates for the `memory/` directory (includes scope system) |
+| `references/services-guide.md` | Template for `config/SERVICES.md` — lean, add-as-you-go approach |
+| `references/env-template.md` | Templates for `.env.example` and `.env` files |
 | `references/directory-readmes.md` | Templates for `songs/`, `releases/`, `config/`, `library/`, `apps/` READMEs |
 | `references/root-readme.md` | Template for the root `README.md` |

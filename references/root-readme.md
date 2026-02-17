@@ -13,11 +13,11 @@ Artist workspace — contains all context, content, songs, releases, and configu
 
 | Directory | Purpose | Start here? |
 |-----------|---------|:-----------:|
-| `context/` | Essential artist context — identity, brand, audience, era, services, tasks | ✅ Yes |
+| `context/` | Essential artist context — identity, brand, audience, era, tasks | ✅ Yes |
 | `memory/` | Learned knowledge — what agents discover over time. See `README.md` inside | ✅ Yes |
 | `songs/` | Song catalog — one folder per song with audio, lyrics, metadata | ✅ Yes |
 | `releases/` | Release catalog — one folder per release with RELEASE.md and artwork | ✅ Yes |
-| `config/` | Per-artist config and state for shared tools (content-creation, content-poster, etc.) | When ready |
+| `config/` | Per-artist config, services, and state for shared tools | When ready |
 | `content/` | Created content — `images/` and `videos/{type}/` (e.g. `shortform`) | When ready |
 | `library/` | Deep-dive reference docs — research, reports, strategies. See `README.md` inside | When ready |
 | `apps/` | Artist-specific applications (e.g. personal website). See `README.md` inside | When ready |
@@ -29,9 +29,17 @@ Artist workspace — contains all context, content, songs, releases, and configu
 | `context/artist.md` | Markdown | Complete artist profile — identity, brand, visual world, voice, tone |
 | `context/audience.md` | Markdown | Emotional relationship with listeners — why they connect, how they talk, what earns shares |
 | `context/era.json` | JSON | Machine routing — current release, song, phase, release date |
-| `context/services.json` | JSON | All tools/accounts/capabilities — universal + optional services |
 | `context/tasks.md` | Markdown | What needs to be done — organized by phase |
 | `context/images/` | Images | Visual references — face guide, expressions, style references |
+
+## Config & Services
+
+| File | Purpose |
+|------|---------|
+| `config/SERVICES.md` | How to connect and track services — add entries as you go, not upfront |
+| `config/services/` | Individual service JSON files — created when a service is actually connected |
+| `.env.example` | Reference list of all env var names |
+| `.env` | Actual secrets — never committed |
 
 ## Shared Tools
 
@@ -53,7 +61,8 @@ The `apps/` directory is for **artist-specific applications** only (like a perso
 
 ### 3. Accounts & Services
 - [ ] Set up social accounts — TikTok, Instagram, YouTube, Twitter
-- [ ] Update `context/services.json` with handles and account IDs
+- [ ] Add service entries to `config/services/` as accounts are connected (see `config/SERVICES.md`)
+- [ ] Store credentials in `.env` (see `.env.example` for variable names)
 
 ### 4. Content Pipeline (when ready)
 - [ ] Add a face guide image to `context/images/face-guide.png`
