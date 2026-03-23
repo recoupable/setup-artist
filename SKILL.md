@@ -50,16 +50,29 @@ Scaffold a complete artist workspace so agents can start working immediately.
 
 ## Steps
 
+### Step 0: Check if already set up (idempotency guard)
+
+Before doing anything else, read `RECOUP.md` and check the `status` field:
+
+```bash
+cat orgs/{org}/artists/{artist-slug}/RECOUP.md
+```
+
+- If `status: active` — the workspace is **already set up**. Stop here. Do not create directories, do not overwrite any files, do not commit. Tell the user this artist is already configured and point them to the existing workspace.
+- If `status: not-setup` — continue with the steps below.
+
+**Critical:** Never create a new artist directory. The folder was created by `setup-sandbox` and already exists. Work only inside the path you read from `artistSlug` in `RECOUP.md`. Do not append any suffix, ID, or hash to the slug.
+
 ### Step 1: Read `RECOUP.md` and create the directory structure
 
-1. Navigate to the artist folder and read `RECOUP.md` to get the artist's name, slug, and ID:
+1. Navigate to the exact artist folder path — use `artistSlug` from `RECOUP.md`, not a derived name:
 
 ```bash
 cd orgs/{org}/artists/{artist-slug}
 cat RECOUP.md
 ```
 
-2. Create the directory structure:
+2. Create the directory structure (`mkdir -p` is safe — it skips directories that already exist):
 
 ```bash
 mkdir -p {context/images,memory,songs,releases,content/images,content/videos,config,library,apps}
@@ -84,19 +97,19 @@ Connects this workspace to the Recoupable platform. See `README.md` for the full
 
 ### Step 3: Create context files
 
-Create each file from the templates in `references/context-files.md`. The essential files:
+Create each file from the templates in `references/context-files.md`. **Before creating any file, check if it already exists** — if it does, skip it. Never overwrite a file that has user-added content.
 
 | File | What to do |
 |------|-----------|
-| `context/artist.md` | Fill with artist identity, brand, visual world, voice, tone. Ask the user for details or research the artist. |
-| `context/audience.md` | Fill with audience insights. Focus on WHY they listen, what they relate to, how they talk. |
-| `context/era.json` | Set the current release, songs, phase, and career stage. |
-| `context/tasks.md` | Leave blank — the user will add tasks as they come up. |
-| `context/images/README.md` | Create with a note explaining this holds visual references like face guides. |
+| `context/artist.md` | Skip if exists. Otherwise fill with artist identity, brand, visual world, voice, tone. Ask the user for details or research the artist. |
+| `context/audience.md` | Skip if exists. Otherwise fill with audience insights. Focus on WHY they listen, what they relate to, how they talk. |
+| `context/era.json` | Skip if exists. Otherwise set the current release, songs, phase, and career stage. |
+| `context/tasks.md` | Skip if exists. Otherwise create blank — the user will add tasks as they come up. |
+| `context/images/README.md` | Skip if exists. Otherwise create with a note explaining this holds visual references like face guides. |
 
 ### Step 4: Create memory system
 
-Create two files:
+Create two files, **skipping any that already exist**:
 
 - `memory/README.md` — Full instructions for agents on how to use the memory system, **including the scope concept**. See `references/memory-system.md`.
 - `memory/MEMORY.md` — Nearly empty starting point with frontmatter and guidelines comment (including scope rules).
@@ -110,19 +123,19 @@ Agents should **ask the user about scope** before saving feedback to long-term m
 
 ### Step 5: Create services and environment files
 
-Services are tracked in `config/`, not pre-filled at setup. Create:
+Services are tracked in `config/`, not pre-filled at setup. Create each file **only if it does not already exist**:
 
 | File | What to do |
 |------|-----------|
-| `config/SERVICES.md` | Instructions for agents on how to add services as they're discovered. See `references/services-guide.md`. |
-| `.env.example` | Reference list of common env var names (all commented out). See `references/env-template.md`. |
-| `.env` | Empty file with a header comment. Agents add credentials here as services are connected. |
+| `config/SERVICES.md` | Skip if exists. Otherwise create using instructions from `references/services-guide.md`. |
+| `.env.example` | Skip if exists. Otherwise create from `references/env-template.md`. |
+| `.env` | Skip if exists. Otherwise create empty file with a header comment. |
 
 **Do NOT pre-fill service entries.** Services are added when the agent has real information — a handle, an API key, a confirmed account. The old approach of creating a massive JSON file with every possible service set to `not-setup` creates noise, not value.
 
 ### Step 6: Create README files for remaining directories
 
-Each directory needs a `README.md` explaining its purpose. See `references/directory-readmes.md` for templates.
+Each directory needs a `README.md` explaining its purpose. See `references/directory-readmes.md` for templates. **Skip any README that already exists.**
 
 | Directory | README explains... |
 |-----------|-------------------|
@@ -135,7 +148,9 @@ Each directory needs a `README.md` explaining its purpose. See `references/direc
 
 ### Step 7: Create root README
 
-Create `README.md` at the artist root with:
+**Skip if `README.md` already exists at the artist root.**
+
+Otherwise create `README.md` with:
 - Artist name as heading
 - Directory structure table
 - Context files table
@@ -170,6 +185,8 @@ git push origin main
 
 ## Principles
 
+- **Idempotent by design.** Running this skill twice on the same artist should have no effect the second time. Always check `status: active` before starting. Never overwrite existing files. Never create new directories.
+- **Work within the existing folder.** The artist folder was created by `setup-sandbox`. Never create a new folder or append anything to the slug. If you find yourself about to run `mkdir` at the artist level, stop — you're in the wrong place.
 - **Start lean.** Only create what's needed. Agents and pipelines will create additional files (like `content/videos/shortform/`) as they run.
 - **Placeholders over empty.** Use `{placeholder}` syntax for unknown values — it's better than blank fields.
 - **Don't pre-fill what you don't know.** A file full of `not-setup` and `null` isn't a placeholder — it's clutter. Services, accounts, and configs should be added when they're real.
