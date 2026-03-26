@@ -11,7 +11,7 @@ Artist directories live inside the sandbox at `orgs/{org}/artists/{artist-slug}/
 
 ## Setting Up a New Artist
 
-When `setup-sandbox` creates an artist folder, it writes a `RECOUP.md` with `status: not-setup`. To mark it ready:
+When `setup-sandbox` creates an artist folder, it writes a `RECOUP.md` with `status: not-setup`. To activate:
 
 1. Navigate to the artist folder and read `RECOUP.md`:
 
@@ -20,9 +20,11 @@ cd orgs/{org}/artists/{artist-slug}
 cat RECOUP.md
 ```
 
-2. Change `status` from `not-setup` to `active`. Remove the body text that says "Run the setup-artist skill."
+2. **Check if already active.** If `status` is `active`, the workspace is already set up — skip to "Working in an Artist Directory." Do not create a duplicate directory or overwrite existing files.
 
-3. Commit and push:
+3. Change `status` from `not-setup` to `active`. Remove the body text that says "Run the setup-artist skill."
+
+4. Commit and push:
 
 ```bash
 git add -A
